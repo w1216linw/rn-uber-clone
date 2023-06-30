@@ -1,6 +1,8 @@
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
+import { selectOrigin } from "../slices/navSlice";
 
 const service = [
   {
@@ -18,7 +20,9 @@ const service = [
 ];
 
 const Service = () => {
+  const origin = useSelector(selectOrigin);
   const navigation = useNavigation();
+
   return (
     <FlatList
       data={service}
@@ -28,7 +32,10 @@ const Service = () => {
       }}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate(item.screen)}>
+        <TouchableOpacity
+          disabled={!origin}
+          onPress={() => navigation.navigate(item.screen)}
+        >
           <View className=" bg-gray-100 p-5 space-y-3">
             <Image
               source={{ uri: item.image }}
